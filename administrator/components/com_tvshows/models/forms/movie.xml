@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+		<field 
+			name="id"
+			type="text"
+			label="COM_TVSHOWS_MOVIE_FIELD_ID_LABEL"
+			description="COM_TVSHOWS_MOVIE_FIELD_ID_DESC"
+			maxlength="10"
+			filter="INTEGER"
+			class="readonly"
+			readonly="true"
+		/>		
+		<field name="links" label="COM_TVSHOWS_MOVIE_FIELD_LINKS_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_LINKS_DESC"
+			type="editor"
+			filter="raw"
+		/>
+		<field name="rate_imdb" label="COM_TVSHOWS_MOVIE_FIELD_RATE_IMDB_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_RATE_IMDB_DESC"
+			type="text"
+			maxlength="5"
+			class="input-xxlarge input-large-text"
+			filter="STRING"
+		/>
+		<field name="votes" label="COM_TVSHOWS_MOVIE_FIELD_VOTES_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_VOTES_DESC"
+			type="text"
+			maxlength="25"
+			filter="STRING"
+		/>
+		<field name="title" label="COM_TVSHOWS_MOVIE_FIELD_TITLE_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_TITLE_DESC"
+			type="text"
+			maxlength="255"
+			filter="STRING"
+		/>
+
+		<field name="producers" label="COM_TVSHOWS_MOVIE_FIELD_PRODUCERS_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_PRODUCERS_DESC"
+			type="text"
+			maxlength="255"
+			filter="STRING"
+		/>
+
+		<field name="release_date" label="COM_TVSHOWS_MOVIE_FIELD_RELEASE_DATE_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_RELEASE_DATE_DESC"
+			type="calendar"
+			maxlength="255"
+			validate="calendar"
+			filter="STRING"
+			format="%Y-%m-%d"
+		/>
+		<field name="language" label="COM_TVSHOWS_MOVIE_FIELD_LANGUAGE_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_LANGUAGE_DESC"
+			type="text"
+			maxlength="15"
+			filter="STRING"
+		/>
+
+		<field name="production_companies" label="COM_TVSHOWS_MOVIE_FIELD_PRODUCTION_COMPANIES_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_PRODUCTON_COMPANIES_DESC"
+			type="text"
+			maxlength="255"
+			filter="STRING"
+		/>
+		
+		<field name="main_image" label="COM_TVSHOWS_MOVIE_FIELD_MAIN_IMAGE_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_MAIN_IMAGE_DESC"
+			type="media"
+			maxlength="255"
+			filter="STRING"
+		/>
+		
+		<field name="description" label="COM_TVSHOWS_MOVIE_FIELD_DESCRIPTION_LABEL" description="COM_TVSHOWS_MOVIE_FIELD_DESCRIPTION_DESC"
+			type="textarea"
+			rows="11" cols="5"
+			filter="RAW"
+		/>
+		
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			class="inputbox" size="40"
+		/>
+		<field
+			name="catid"
+			type="categoryedit"
+			extension="com_tvshows"
+			label="JCATEGORY"
+			description="JFIELD_CATEGORY_DESC"
+			class="inputbox"
+			required="true"
+		/>
+		<field 
+			name="tags"
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="span12"
+			multiple="true"
+		/>
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			class="chzn-color-state"
+			size="1"
+			default="1"
+			filter="interval"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+		<field
+			name="checked_out"
+			type="hidden"
+			label="COM_TVSHOWS_MOVIE_FIELD_CHECKED_OUT_LABEL"
+			description="COM_TVSHOWS_MOVIE_FIELD_CHECKED_OUT_DESC"
+			filter="UNSET"
+		/>
+		<field
+			name="created"
+			type="calendar"
+			label="JGLOBAL_FIELD_CREATED_LABEL"
+			description="JGLOBAL_FIELD_CREATED_DESC"
+			class="readonly"
+		/>
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			description="JGLOBAL_FIELD_MODIFIED_LABEL"
+			class="readonly"
+		/>
+		<field
+			name="hits"
+			type="text"
+			label="JGLOBAL_HITS"
+			description="JGLOBAL_LIST_HITS_LABEL"
+			readonly="true"
+			filter="unset"
+			class="readonly"
+		/>
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			description="JFIELD_META_KEYWORDS_DESC"
+			class="inputbox"
+			rows="3"
+			cols="30"
+		/>
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			description="JFIELD_META_DESCRIPTION_DESC"
+			class="inputbox"
+			rows="3"
+			cols="30"
+		/>
+
+		<field name="images" type="text" maxlength="255" filter="RAW" />
+	</fieldset>
+	<fields name="imgs" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+			<field
+				name="image"
+				type="images"
+				label="COM_TVSHOWS_FIELD_IMAGE_FIRST_LABEL"
+				description="COM_TVSHOWS_FIELD_IMAGE_FIRST_DESC"
+			/>
+		</fieldset>
+	</fields>
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+			<field
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			</field>
+			<field
+				name="rights"
+				type="text"
+				label="JFIELD_METADATA_RIGHTS_LABEL"
+				description="JFIELD_METADATA_RIGHTS_DESC"
+				size="20"
+			/>
+		</fieldset>
+	</fields>
+</form>

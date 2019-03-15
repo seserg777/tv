@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="3.1" type="template" client="site">
+	<name>PS Tvshows</name>
+	<version>1.0</version>
+	<creationDate>11/07/2018</creationDate>
+	<author>Peak-systems</author>
+	<authorEmail>support@peak-systems.ru</authorEmail>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.</copyright>
+	<description><![CDATA[
+	<h1>Joomla template created by <a href='http://peak-systems.ru'>Peak-systems</a></h1>
+	]]></description>
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+	</files>
+	<positions>
+		<position>side-panel</position>
+		<position>header</position>
+		<position>nav</position>
+		<position>slider</position>
+		<position>sideleft</position>
+		<position>sideright</position>
+		<position>sideright-films</position>
+		<position>sideright-seasons</position>
+		<position>component-top</position>
+		<position>component</position>
+		<position>component-bottom</position>
+		<position>bottom</position>
+		<position>bottom-full</position>
+		<position>footer-1</position>
+		<position>footer-2</position>
+		<position>copy</position>
+		<position>hidden</position>
+	</positions>
+	<config>
+		<fields name="params">
+			<fieldset name="style" label="Style">
+				<field type="spacer" name="spacer-1" label="Body" />
+				<field name="body-font" type="list" default="" label="Body font">
+					<option value="GothaPro">Gotham Pro</option>
+					<option value="Roboto">Roboto</option>
+					<option value="Open sans">Open sans</option>
+					<option value="Montserrat">Montserrat</option>
+				</field>
+				<field name="body-background-color" type="color" default="#fff" label="Body background color" />
+				<field name="body-font-color" type="color" default="#7d7d7d" label="Body font color" />
+				<field name="body-link-color" type="color" default="#0085e2" label="Body link color" />
+				<field name="body-link-hover-color" type="color" default="#01af58" label="Body link hover color" />
+				<field type="spacer" name="spacer-2" label="Main menu" />
+				<field name="main-menu-background-color" type="color" default="#fff" label="Main menu background color" />
+				<field name="main-menu-font-color" type="color" default="#242329" label="Main menu font color" />
+				<field name="main-menu-hover-border-color" type="color" default="#2fba75" label="Main menu hover border color" />
+				<field type="spacer" name="spacer-2" label="Header" />
+				<field name="header-search-background-color" type="color" default="#01ae57" label="Header search background color" />
+				<field name="header-search-font-color" type="color" default="#40c281" label="Header search font color" />
+				<field name="header-search-result-border-color" type="color" default="#01ae58" label="Header search result border color" />
+				<field type="spacer" name="spacer-4" label="Footer" />
+				<field name="footer-background-color" type="color" default="#242329" label="Footer background color" />
+				<field name="footer-font-color" type="color" default="#6a6a6a" label="Footer font color" />
+				<field name="copy-link-color" type="color" default="#0085e2" label="Copy link color" />
+				<field name="copy-link-hover-color" type="color" default="#01af58" label="Copy link hover color" />
+				<field type="spacer" name="spacer-5" label="Footer menu" />
+				<field name="footer-menu-color" type="color" default="#2fba75" label="Footer menu color" />
+				<field name="footer-menu-border-color" type="color" default="#2e2d33" label="Footer menu border color" />
+				<field name="footer-menu-border-hover-color" type="color" default="#2fba75" label="Footer menu border hover color" />
+				<field type="spacer" name="spacer-6" label="UI" />
+				<field name="bages-background-color" type="color" default="#0085e2" label="Bages background color" />
+				<field name="main-btn-start-gradient-color" type="color" default="#0cc568" label="Main button start gradient background color" />
+				<field name="main-btn-end-gradient-color" type="color" default="#01ae57" label="Main button end gradient background color" />
+				<field name="scroll-color" type="color" default="#01ae57" label="Scroll color" />
+				<field name="calendar-active-day-background-color" type="color" default="#01ae57" label="Calendar active day background color" />
+				<field type="spacer" name="spacer-7" label="Most popular module" />
+				<field name="most-popular-module-background-color" type="color" default="#242329" label="Most popular module background color" />
+				<field name="most-popular-module-title-color" type="color" default="#737373" label="Most popular module title color" />
+				<field name="most-popular-module-border-color" type="color" default="#343338" label="Most popular module border color" />
+				<field name="most-popular-module-active-color" type="color" default="#01ae57" label="Most popular module active color" />
+				<field type="spacer" name="spacer-8" label="Sidebar" />
+				<field name="sidebar-background-color" type="color" default="#ededed" label="Sidebar background color" />
+				<field name="sidebar-font-color" type="color" default="#000" label="Sidebar font color" />
+				<field name="sidebar-link-color" type="color" default="#0085e2" label="Sidebar link color" />
+				<field name="sidebar-link-hover-color" type="color" default="#005c9e" label="Sidebar link hover color" />
+				<field type="spacer" name="spacer-9" label="Watch and download module" />
+				<field name="watch-and-download-module-background-color" type="color" default="#ededed" label="Watch and download module background color" />
+				<field name="watch-and-download-module-font-color" type="color" default="#000" label="Watch and download module font color" />
+				<field type="spacer" name="spacer-10" label="Horizontal alphabet module" />
+				<field name="horizontal-alphabet-module-background-color" type="color" default="#ededed" label="Horizontal alphabet module background color" />
+				<field name="horizontal-alphabet-module-title-color" type="color" default="#282828" label="Horizontal alphabet module title color" />
+				<field name="horizontal-alphabet-module-results-background-color" type="color" default="#242329" label="Horizontal alphabet module results background color" />
+				<field name="horizontal-alphabet-module-results-link-color" type="color" default="#01ae57" label="Horizontal alphabet module results link color" />
+				<field type="spacer" name="spacer-11" label="Season" />
+				<field name="season-description-background-color" type="color" default="#242329" label="Season description background color" />
+				<field name="season-description-label-color" type="color" default="#01ae57" label="Season description label color" />
+				<field name="season-description-text-color" type="color" default="#6a6a6a" label="Season description text color" />
+				<field name="season-description-link-color" type="color" default="#005c9e" label="Season description link color" />
+				<field name="season-description-link-hover-color" type="color" default="#003761" label="Season description link hover color" />
+				<field name="season-description-dividers-color" type="color" default="#2f2e34" label="Season description dividers color" />
+				<field name="season-breadcrumbs-font-color" type="color" default="#6a6a6a" label="Season breadcrumbs font color" />
+				<field name="season-breadcrumbs-link-color" type="color" default="#01ae57" label="Season breadcrumbs link color" />
+				<field name="season-breadcrumbs-link-hover-color" type="color" default="#0085e2" label="Season breadcrumbs link hover color" />
+				<field name="season-breadcrumbs-dots-color" type="color" default="#01ae57" label="Season breadcrumbs dots color" />
+				<field name="season-breadcrumbs-border-color" type="color" default="#343338" label="Season breadcrumbs border color" />
+				<field name="season-screencaps-dot-color" type="color" default="#4c4b50" label="Season screencaps dot color" />
+				<field name="season-screencaps-dot-active-color" type="color" default="#01ae57" label="Season screencaps dot active color" />
+				<field type="spacer" name="spacer-12" label="Film" />
+				<field name="film-description-background-color" type="color" default="#242329" label="Film description background color" />
+				<field name="film-description-link-color" type="color" default="#005c9e" label="Film description link color" />
+				<field name="film-description-link-hover-color" type="color" default="#003761" label="Film description link hover color" />
+				<field name="film-description-text-color" type="color" default="#6a6a6a" label="Film description text color" />
+				<field name="film-screencaps-title-color" type="color" default="#737373" label="Film screencaps title color" />
+				<field name="film-screencaps-title-border-color" type="color" default="#343338" label="Film screencaps title border color" />
+				<field name="film-screencaps-dot-color" type="color" default="#4c4b50" label="Film screencaps dot color" />
+				<field name="film-screencaps-dot-active-color" type="color" default="#01ae57" label="Film screencaps dot active color" />
+				<field type="spacer" name="spacer-13" label="List of tvshows" />
+				<field name="list-tvshows-link-color" type="color" default="#005c9e" label="List tvshows link color" />
+				<field name="list-tvshows-link-hover-color" type="color" default="#0085e2" label="List tvshows link hover color" />
+				<field name="list-tvshows-link-letter-color" type="color" default="#8e8e8e" label="List tvshows letter color" />
+				<field name="list-tvshows-link-letter-background-color" type="color" default="#fff" label="List tvshows letter background color" />
+				<field name="list-tvshows-link-letter-border-color" type="color" default="#cacaca" label="List tvshows letter border color" />
+				<field name="list-tvshows-link-letter-under-border-color" type="color" default="#cacaca" label="List tvshows letter under border color" />
+			</fieldset>
+			<fieldset name="code" label="Custom code">
+				<field name="custom_js" label ="Custom javascript code" type="textarea" rows="10" cols="5" filter="raw" />
+			</fieldset>
+			<fieldset name="advanced"></fieldset>
+		</fields>
+	</config>
+</extension>

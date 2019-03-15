@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_TVSHOWS_MOVIE_VIEW_ITEM_TITLE" option="COM_TVSHOWS_MOVIE_VIEW_ITEM_DESC">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_MOVIE_SINGLE_SEASON"
+		/>
+		<message>
+			<![CDATA[COM_TVSHOWS_MOVIE_VIEW_ITEM_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_tvshows/models/fields">
+			<field
+				name="id"
+				type="modal_season"
+				description="COM_TVSHOWS_FIELD_SELECT_MOVIE_DESC"
+				label="COM_TVSHOWS_FIELD_SELECT_MOVIE_LABEL"
+				required="true"
+				edit="true"
+				clear="false"
+			/>
+		</fieldset>
+	</fields>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+		<!-- Basic options. -->
+		<fieldset name="basic" label="COM_TVSHOWS_FIELDSET_MORE_OPTIONS_LABEL">
+		</fieldset>
+	</fields>
+</metadata>

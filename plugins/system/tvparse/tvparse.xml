@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension version="2.5.0" type="plugin" group="system" method="upgrade">
+    <name>Tv parser</name>
+    <creationDate>July 18 2018</creationDate>
+    <author>Peak-systems</author>
+    <authorUrl>peak-systems.ru</authorUrl>
+    <copyright>Copyright (C) 2004-2014 Virtuemart Team. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>1.0.0</version>
+    <description>Plugin parse tvshowss</description>
+
+    <files>
+        <filename plugin="tvparse">tvparse.php</filename>
+    </files>
+
+    <config>
+		<fields name="params">
+			<fieldset name="getlist" label="Parse TV's" addfieldpath="/plugins/system/tvparse/fields">
+				<field type="getlist" label="Get list" />
+			</fieldset>
+			
+			<fieldset name="getlistfromlist" label="Parse TV's from list" addfieldpath="/plugins/system/tvparse/fields">
+				<field type="getlistfromlist" label="Get from list" />
+			</fieldset>
+			
+			<fieldset name="nextseason" label="Get Next season">
+				<field type="getnextseason" label="Обновить даты следующих сезонов у текущих фильмов" />
+			</fieldset>
+			
+			<fieldset name="newseasons" label="Get New seasons">
+				<field type="getnewseasons" label="Получить новые сезоны" />
+			</fieldset>
+			
+			<fieldset name="spinner" label="Spinner">
+				
+			</fieldset>
+			
+			<fieldset name="translate" label="Translate">
+				
+			</fieldset>
+			
+			<fieldset name="import" label="Import">
+				<field type="import" label="" />
+			</fieldset>
+			
+			<fieldset name="export" label="Export">
+				<field type="export" label="" />
+			</fieldset>
+			
+			<fieldset name="episodes" label="Episodes">
+				<field type="episodes" label="" />
+			</fieldset>
+			
+			<fieldset name="getmoviesfromlist" label="Parse Movies from list" addfieldpath="/plugins/system/tvparse/fields">
+				<field type="getmoviesfromlist" label="Get movies from list" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

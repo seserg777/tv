@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="tvshows" label="COM_TVSHOWS_CONFIG_FILE_SHAERS_LABEL" >
+		<field type="checkbox" name="enable_modal_fileshare_domains" label="Enable modal fileshare domains" value="1" />
+		<field name="fileshare_domains" type="repeatable" icon="list" label="File share domains" default='{"domain":["k2s.cc"],"name":["Keep2Share"], "popup_content":[""], "buy_premium_url":[""]}' filter="raw">
+			<fieldset hidden="true" name="list_templates_modal" repeat="true">
+				<field name="domain" label="Domain" size="30" type="text" />
+				<field name="name" label="Name" size="30" type="text" />
+				<field name="popup_content" label="Popup content" type="textarea" width="100" height="100" filter="raw" />
+				<field name="buy_premium_url" label="Buy premium url" size="30" type="text" />
+			</fieldset>
+		</field>
+	</fieldset>
+	
+	<fieldset name="season" label="COM_TVSHOWS_CONFIG_SEASON_LABEL">
+		<field type="spacer" name="divier-1" label="Available variables" />
+		<field type="spacer" name="divider-2" label="{film_name} - film name" />
+		<field type="spacer" name="divider-14" label="{seasons_enumeration} - seasons enumeration 1,2,3...etc" />
+		<field type="spacer" name="divider-3" label="{season_number} - season number" />
+		<field type="spacer" name="divider-4" label="{film_genres} - film genres" />
+		<field type="spacer" name="divider-5" label="{film_creators} - film creators" />
+		<field type="spacer" name="divider-6" label="{film_channel} - film channel" />
+		<field type="spacer" name="divider-13" label="{film_url} - film url" />
+		<field name="h1_pattern" label="H1 season pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="h2_pattern" label="H2 season pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="description_pattern" label="Description season pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="description_pattern_2" label="Description-2 season pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="enable_season_custom_btn_1_with_links" type="radio" default="0" label="COM_TVSHOWS_CONFIG_SEASON_CUSTOM_BTN_1_ENABLE_WITH_LINKS" class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field type="text" name="season_custom_btn_1_anchor" label="COM_TVSHOWS_CONFIG_SEASON_CUSTOM_BTN_1_ANCHOR" />
+		<field type="text" name="season_custom_btn_1_url" label="COM_TVSHOWS_CONFIG_SEASON_CUSTOM_BTN_1_URL" />
+		<field name="scroll_to_download_btn" type="radio" default="0" label="COM_TVSHOWS_CONFIG_SEASON_SCROLL_TO_DOWNLOAD_BTN" class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="season_meta_title_pattern" label="Season meta-title pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="season_meta_description_pattern" label="Season meta-description pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="comments_type" type="radio" default="0" label="COM_TVSHOWS_CONFIG_SEASON_COMMENTS_TYPE" class="btn-group btn-group-yesno">
+			<option value="disqus">Disqus</option>
+			<option value="facebook">Facebook</option>
+		</field>
+		<field name="season_imdb_link" type="radio" default="0" label="COM_TVSHOWS_CONFIG_SEASON_IMDB_LINK" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="season_imdb_link_nofollow" type="radio" default="0" label="COM_TVSHOWS_CONFIG_SEASON_IMDB_LINK_NOFOLLOW" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="season_alias_words" label="Season alias words" type="textarea" width="100" height="100" filter="raw" />
+	</fieldset>
+	
+	<fieldset name="film" label="COM_TVSHOWS_CONFIG_FILM_LABEL">
+		<field type="spacer" name="divider-7" label="Available variables" />
+		<field type="spacer" name="divider-8" label="{film_name} - film name" />
+		<field type="spacer" name="divider-9" label="{seasons_enumeration} - seasons enumeration 1,2,3...etc" />
+		<field type="spacer" name="divider-10" label="{film_genres} - film genres" />
+		<field type="spacer" name="divider-11" label="{film_creators} - film creators" />
+		<field type="spacer" name="divider-12" label="{film_channel} - film channel" />
+		<field name="film_h1_pattern" label="H1 film pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="film_h2_pattern" label="H2 film pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="season_description_pattern" label="Description film pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="film_meta_title_pattern" label="Film meta-title pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="film_meta_description_pattern" label="Film meta-description pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="film_imdb_link" type="radio" default="0" label="COM_TVSHOWS_CONFIG_FILM_IMDB_LINK" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="film_imdb_link_nofollow" type="radio" default="0" label="COM_TVSHOWS_CONFIG_FILM_IMDB_LINK_NOFOLLOW" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field type="text" name="films-custom-btn-1-anchor" label="Custom btn anchor" />
+		<field type="text" name="films-custom-btn-1-link" label="Custom btn link" />
+		<field name="film_scrolltodownload_btn" type="radio" default="1" label="COM_TVSHOWS_CONFIG_FILM_SCROLLTODOWNLOAD_BTN" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="film_alias_words" label="Film alias words" type="textarea" width="100" height="100" filter="raw" />
+		<field name="enable_film_custom_btn_1_with_seasons" type="radio" default="0" label="COM_TVSHOWS_CONFIG_FILM_CUSTOM_BTN_1_ENABLE_WITH_SEASONS" class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+	
+	<fieldset name="episodes" label="COM_TVSHOWS_CONFIG_EPISODES_LABEL">
+		<field name="empty_episode_function" type="radio" default="0" label="COM_TVSHOWS_EMPTY_EPISODES_FUNCTION" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field type="text" name="empty_episode_url" label="Empty episodes url" />
+	</fieldset>
+	
+	<fieldset name="movie" label="COM_TVSHOWS_CONFIG_MOVIE_LABEL">
+		<field type="spacer" name="divider-13" label="Available variables" />
+		<field type="spacer" name="divider-14" label="{movie_name} - movie name" />
+		<field type="spacer" name="divider-15" label="{movie_genres} - movie genres" />
+		<field type="spacer" name="divider-16" label="{movie_producers} - movie producers" />
+		<field type="spacer" name="divider-17" label="{movie_production_companies} - movie production companies" />
+		<field type="spacer" name="divider-18" label="{movie_budget} - movie budget" />
+		<field name="movie_h1_pattern" label="H1 movie pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="movie_h2_pattern" label="H2 movie pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="movie_description_pattern" label="Description movie pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="movie_meta_title_pattern" label="Movie meta-title pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="movie_meta_description_pattern" label="Movie meta-description pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="movie_description_pattern_2" label="Description-2 movie pattern" type="textarea" width="100" height="100" filter="raw" />
+		<field name="movie_imdb_link" type="radio" default="0" label="COM_TVSHOWS_CONFIG_FILM_IMDB_LINK" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="movie_imdb_link_nofollow" type="radio" default="0" label="COM_TVSHOWS_CONFIG_FILM_IMDB_LINK_NOFOLLOW" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field type="text" name="movie_custom_btn_1_anchor" label="Custom btn anchor" />
+		<field type="text" name="movie_custom_btn_1_link" label="Custom btn link" />
+		<field name="movie_scrolltodownload_btn" type="radio" default="1" label="COM_TVSHOWS_CONFIG_FILM_SCROLLTODOWNLOAD_BTN" class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="enable_movie_custom_btn_1" type="radio" default="0" label="COM_TVSHOWS_CONFIG_FILM_CUSTOM_BTN_1_ENABLE_WITH_SEASONS" class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="movie_alias_words" label="Movie alias words" type="textarea" width="100" height="100" filter="raw" />
+	</fieldset>
+	
+	<fieldset name="security" label="COM_TVSHOWS_CONFIG_SECURITY">
+		<field type="text" name="recaptcha-public" label="Recaptcha public key" />
+		<field type="text" name="recaptcha-secret" label="Recaptcha secret key" />
+	</fieldset>
+	
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			filter="rules"
+			validate="rules"
+			component="com_tvshows"
+			section="component"
+		/>
+	</fieldset>
+</config>
