@@ -226,5 +226,16 @@ class TvshowsModelMovies extends JModelList
 		//echo '<pre>';var_dump($query);
 		return $list;
 	}
+	
+	public function getTitles(){
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__tvshows_movies'))
+			->where($db->quoteName('published') . ' = 1 ');
+		$db->setQuery($query);
+		return $db->loadObjectList();
+	}
 }
 ?>

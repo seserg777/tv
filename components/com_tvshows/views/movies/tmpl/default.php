@@ -34,14 +34,14 @@ $user = JFactory::getUser();?>
 
 					if($key != $f_char || empty($key)){
 						$key = $f_char;?>
-						<li class="key"><?php echo $f_char;?></li>
+						<li class="key" onclick="getItemsByletter(this);"><?php echo $f_char;?></li>
 					<?php } ?>
 
-					<li>
-						<a href="<?php echo TvshowsHelperRoute::getMovieRoute(null, $item->alias);?>">
-							<?php echo $this->escape($item->title); ?>
-						</a>
-					</li>
+					<!--<li>-->
+						<!--<a href="<?php //echo TvshowsHelperRoute::getMovieRoute(null, $item->alias);?>">-->
+							<?php //echo $this->escape($item->title); ?>
+						<!--</a>-->
+					<!--</li>-->
 
 				<?php } ?>
 			</ul>
@@ -55,3 +55,22 @@ $user = JFactory::getUser();?>
 		</form>
 	</div>
 </div>
+<script>
+	function getItemsByletter(el){
+		var key = jQuery(el);
+		var letter = key.text();
+		
+		jQuery.getJSON('index.php?option=com_tvshows&task=movies.getItemsByletter&<?php echo JSession::getFormToken() .'=1';?>',{letter: letter})
+		.done(function(r){			
+			if(r.success == true){
+				if(r.data.length){
+					for(var i in r.data){
+						key.after('<li><a href="'+r.data[i]['link']+'">'+r.data[i]['title']+'</a></li>');
+					}
+				}
+			} else {
+				alert('Error request!');
+			}
+		});
+	}
+</script>

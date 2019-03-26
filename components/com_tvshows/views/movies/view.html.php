@@ -24,7 +24,8 @@ class TvshowsViewMovies extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		
-		$this->items 		 = $this->get('Items');
+		//$this->items 		 = $this->get('Items');
+		$this->items 		 = $this->get('Titles');
 		$this->state 		 = $this->get('State');
 		$this->pagination 	 = $this->get('Pagination');
 		$this->user		 	 = JFactory::getUser();
@@ -42,14 +43,14 @@ class TvshowsViewMovies extends JViewLegacy
 		}
 		
 		// Prepare the data.
-		foreach ($this->items as $item)
+		/*foreach ($this->items as $item)
 		{
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 
 				
 			$active = $app->getMenu()->getActive();
 			$item->params = clone($this->params);
-		}
+		}*/
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

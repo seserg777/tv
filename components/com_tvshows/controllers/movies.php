@@ -53,5 +53,32 @@ class TvshowsControllerMovies extends JControllerAdmin
 		echo json_encode( array('data' => $return) );
 		$app->close();
 	}
+	
+	public function getItemsByletter(){
+		JSession::checkToken('get') or die( 'Invalid Token' );
+		$app = JFactory::getApplication();
+		$jinput = $app->input;
+		$letter = $jinput->get('letter', null, 'STRING');
+		if(isset($letter) && !empty($letter)){
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query
+				->select($db->quoteName(array('title', 'alias')))
+				->from($db->quoteName('#__tvshows_movies'))
+				->where($db->quoteName('title') . ' LIKE '.$db->quote($letter.'%'))
+				->where($db->quoteName('published') . ' = 1 ');
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
+			
+			foreach($result as $k => $v){
+				$result[$k]->link = jRoute::_(TvshowsHelperRoute::getMovieRoute(null, $v->alias));
+			}
+		} else {
+			$result = array();
+		}
+		
+		echo new JResponseJson($result);
+		$app->close();
+	}
 }
 ?>
