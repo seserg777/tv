@@ -433,4 +433,3 @@ if($user->guest){
   <script src="<?php echo $this->baseurl."/templates/".$this->template."/js/script.js";?>" ></script>
 </body><!--end body-->
 </html>
-<?php //echo JPATH_ROOT;?>
