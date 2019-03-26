@@ -405,9 +405,7 @@ if($user->guest){
     <?php } ?>
 	<jdoc:include type="modules" name="debug" />
     <script src="<?php echo $this->baseurl."/templates/".$this->template."/js/selectivizr-min.js";?>" ></script>
-  <?php if(isset($custom_js) && !empty($custom_js)){
-	  echo $custom_js;
-  }?>
+  <?php if(isset($custom_js) && !empty($custom_js)){echo $custom_js;}?>
   <script>
     /*jquery.matchHeight-min.js http://brm.io/jquery-match-height/ */
     (function(c){var n=-1,f=-1,g=function(a){return parseFloat(a)||0},r=function(a){var b=null,d=[];c(a).each(function(){var a=c(this),k=a.offset().top-g(a.css("margin-top")),l=0<d.length?d[d.length-1]:null;null===l?d.push(a):1>=Math.floor(Math.abs(b-k))?d[d.length-1]=l.add(a):d.push(a);b=k});return d},p=function(a){var b={byRow:!0,property:"height",target:null,remove:!1};if("object"===typeof a)return c.extend(b,a);"boolean"===typeof a?b.byRow=a:"remove"===a&&(b.remove=!0);return b},b=c.fn.matchHeight=
