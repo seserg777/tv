@@ -58,6 +58,8 @@ $user = JFactory::getUser();?>
 <script>
 	function getItemsByletter(el){
 		var key = jQuery(el);
+		if(key.hasClass('active'))
+			return
 		var letter = key.text();
 		
 		jQuery.getJSON('index.php?option=com_tvshows&task=movies.getItemsByletter&<?php echo JSession::getFormToken() .'=1';?>',{letter: letter})
@@ -71,6 +73,7 @@ $user = JFactory::getUser();?>
 			} else {
 				alert('Error request!');
 			}
+			key.addClass('active');
 		});
 	}
 </script>

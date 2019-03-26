@@ -233,7 +233,8 @@ class TvshowsModelMovies extends JModelList
 		$query
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__tvshows_movies'))
-			->where($db->quoteName('published') . ' = 1 ');
+			->where($db->quoteName('published') . ' = 1 ')
+			->order('title ASC');
 		$db->setQuery($query);
 		return $db->loadObjectList();
 	}
