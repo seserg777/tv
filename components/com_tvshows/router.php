@@ -153,10 +153,11 @@ function TvshowsParseRoute($segments)
 							$db->setQuery($qry);
 							$id = $db->loadResult();
 
-							if(!empty($id))
-							{
+							if(!empty($id)) {
 								$vars['id'] = $id;
 								$vars['view'] = 'movie';
+							} else {
+								JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 							}
 						}
 					}
@@ -179,10 +180,13 @@ function TvshowsParseRoute($segments)
 					$db->setQuery($qry);
 					$id = $db->loadResult();
 					//var_dump($segments[$count-1], $id, JFilterOutput::stringURLSafe(implode('-',$segment)));
+					//var_dump($id);
 
 					if(!empty($id)) {
 						$vars['id'] = $id;
 						$vars['view'] = 'season';
+					} else {
+						JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 					}
 
 					if(!count($segments)){
