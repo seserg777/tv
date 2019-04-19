@@ -140,6 +140,35 @@ abstract class TvshowsHelperSeason {
 		}
 	}
 	
+	public static function checkCaptchaV3($token){
+		$jinput = JFactory::getApplication()->input;
+		$params = JComponentHelper::getParams('com_tvshows');
+		$recaptcha_secret = $params->get('recaptcha-secret-v3');
+		$ip = $jinput->server->get('REMOTE_ADDR');
+		
+		try {
+			jimport('joomla.http.factory');
+			$http = JHttpFactory::getHttp();
+			if ($request = $http->get('https://www.google.com/recaptcha/api/siteverify?secret='.urlencode($recaptcha_secret).'&response='.urlencode($token).'&remoteip='.urlencode($ip))) {
+				$json = json_decode($request->body);
+			}
+		} catch (Exception $e) {
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$invalid[] = $componentId[0];
+			return false;
+		}
+		
+		if (empty($json->success) || !$json->success) {			
+			if (!empty($json) && isset($json->{'error-codes'}) && is_array($json->{'error-codes'})) {
+				foreach ($json->{'error-codes'} as $code) {
+					JFactory::getApplication()->enqueueMessage('Recaptcha_'.$code, 'error');
+				}
+			}
+		} elseif ($json->success) {
+			return true;
+		}
+	}
+	
 	public static function customBtn($item, $link, $text, $attributes = array()){
 		$text = str_replace('{season_number}', $item->season_number, str_replace('{film_name}', $item->film->title, $text)); 
 		if(isset($item->implodetags) && !empty($item->implodetags)){

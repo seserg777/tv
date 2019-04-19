@@ -130,6 +130,9 @@
 	<fieldset name="security" label="COM_TVSHOWS_CONFIG_SECURITY">
 		<field type="text" name="recaptcha-public" label="Recaptcha public key" />
 		<field type="text" name="recaptcha-secret" label="Recaptcha secret key" />
+		
+		<field type="text" name="recaptcha-public-v3" label="Recaptcha V3 public key" />
+		<field type="text" name="recaptcha-secret-v3" label="Recaptcha V3 secret key" />
 	</fieldset>
 	
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">

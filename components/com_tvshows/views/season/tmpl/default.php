@@ -8,7 +8,13 @@
 defined("_JEXEC") or die("Restricted access");
 $doc = JFactory::getDocument();
 
-$doc->addScript('//www.google.com/recaptcha/api.js');
+$recaptcha_public_v3 = $this->component_params->get('recaptcha-public-v3', null);
+
+if(isset($recaptcha_public_v3) && !empty(recaptcha_public_v3)){
+	$doc->addScript('//www.google.com/recaptcha/api.js?render='.$recaptcha_public_v3);
+} else {
+	$doc->addScript('//www.google.com/recaptcha/api.js');
+}
 $doc->addScript('//cdn.jsdelivr.net/npm/sweetalert2');
 
 $today = JFactory::getDate();
@@ -113,9 +119,7 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 			
 			<div class="season-image">
 				<div class="card">
-					<?php if(isset($this->item->bage) && !empty($this->item->bage)){?>
-						<p class="bage"><?php echo $this->item->bage;?></p>
-					<?php } ?>
+					<?php if(isset($this->item->bage) && !empty($this->item->bage)){?><p class="bage"><?php echo $this->item->bage;?></p><?php } ?>
 
 					<?php if($image){?>
 						<div class="card-image">
@@ -134,10 +138,7 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 						<div class="imdb">
 							<span class="imdbRating">
 								<?php if(isset($this->item->film->rate_imdb) && !empty($this->item->film->rate_imdb)){?>
-									<span class="rating">
-										<?php echo $this->item->film->rate_imdb;?>
-										<span class="ofTen">/10</span>
-									</span>
+									<span class="rating"><?php echo $this->item->film->rate_imdb;?><span class="ofTen">/10</span></span>
 								<?php } ?>
 
 								<?php if(isset($this->item->film->votes) && !empty($this->item->film->votes)){?>
@@ -842,30 +843,12 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 				pagination: {el: '#screens .swiper-pagination',},
 				navigation: {nextEl: '#screens .swiper-button-next',prevEl: '#screens .swiper-button-prev',},
 				breakpoints: {
-					320: {
-					  slidesPerView: 1,
-					  spaceBetween: 0
-					},
-					480: {
-					  slidesPerView: 2,
-					  spaceBetween: 20
-					},
-					640: {
-					  slidesPerView: 3,
-					  spaceBetween: 25
-					},
-					980: {
-					  slidesPerView: 3,
-					  spaceBetween: 25
-					},
-					1024: {
-					  slidesPerView: 3,
-					  spaceBetween: 25
-					},
-					1279: {
-					  slidesPerView: 3,
-					  spaceBetween: 25
-					}
+					320: {slidesPerView: 1,spaceBetween: 0},
+					480: {slidesPerView: 2,spaceBetween: 20},
+					640: {slidesPerView: 3,spaceBetween: 25},
+					980: {slidesPerView: 3,spaceBetween: 25},
+					1024: {slidesPerView: 3,spaceBetween: 25},
+					1279: {slidesPerView: 3,spaceBetween: 25}
 				}
 			});
 		});
@@ -879,26 +862,11 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 				pagination: {el: '#trailers .swiper-pagination',},
 				navigation: {nextEl: '#trailers .swiper-button-next', prevEl: '#trailers .swiper-button-prev',},
 				breakpoints: {
-					320: {
-					  slidesPerView: 1,
-					  spaceBetween: 0
-					},
-					480: {
-					  slidesPerView: 2,
-					  spaceBetween: 20
-					},
-					640: {
-					  slidesPerView: 2,
-					  spaceBetween: 25
-					},
-					980: {
-					  slidesPerView: 3,
-					  spaceBetween: 25
-					},
-					1279: {
-					  slidesPerView: 3,
-					  spaceBetween: 25
-					}
+					320: {slidesPerView: 1, 					  spaceBetween: 0 					},
+					480: {slidesPerView: 2, 					  spaceBetween: 20 					},
+					640: {slidesPerView: 2, 					  spaceBetween: 25 					},
+					980: {slidesPerView: 3, 					  spaceBetween: 25 					},
+					1279: {slidesPerView: 3, 					  spaceBetween: 25 					}
 				}
 			});
 		});
@@ -908,6 +876,56 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 <script src="/components/com_tvshows/assets/js/form.js"></script>
 <script>
 	var active_btn;
+	
+	<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
+	const recaptchaV3 = () => {
+		return new Promise(function(resolve, reject) {
+			grecaptcha.ready(function() {
+				grecaptcha.execute('<?php echo $recaptcha_public_v3;?>', {action: 'homepage'}).then(function(token) {
+					jQuery.getJSON('index.php?option=com_tvshows&task=seasons.verify&<?php echo JSession::getFormToken() .'=1';?>',{token: token})
+					.done(function(r){	
+						if(r.success == true){
+							if(r.data == true){
+								resolve(true);
+							} else {
+								console.warn('captcha v3 not validate');
+								resolve(false);
+							}
+						} else {
+							console.error('captcha v3 error');
+							alert('Are You robot?');
+							resolve(false);
+						}
+					});
+				});
+			});
+		});
+	}
+	<?php } ?>
+	
+	function showPremumWatch(that){
+		var link = atob(arr[that.attr('data-url')]);
+		jQuery('#premium .preview-block').html('');
+		jQuery('#premium .modal-title').text(that.closest('[itemprop="episode"]').find('.episodes-title').find('.h3').text());
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.dataset.url = link;
+		script.dataset.width = "900px";
+		script.dataset.height = "56.25%";
+		if (script.readyState){
+			script.onreadystatechange = function(){
+				if (script.readyState == "loaded" ||
+				script.readyState == "complete"){
+					script.onreadystatechange = null;
+				}
+			};
+		} else {
+			script.onload = function(){};
+		}
+		script.src = "https://k2s.cc/js/preview.js";
+		document.getElementsByClassName("preview-block")[0].appendChild(script);
+		jQuery('#premium').modal('show');
+	}
 	
 	jQuery(document).ready(function(){		
 		jQuery('.report').on('click',function(e){
@@ -935,36 +953,38 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 			location.href = href;
 		});
 		
-		jQuery('.download-cell button.main-btn').click(function(){
-			if (jQuery(this).hasClass('with-play-icon')){
-				var link = atob(arr[jQuery(this).attr('data-url')]);
-				jQuery('#premium .preview-block').html('');
-				jQuery('#premium .modal-title').text(jQuery(this).closest('[itemprop="episode"]').find('.episodes-title').find('.h3').text());
-				var script = document.createElement("script");
-				script.type = "text/javascript";
-				script.dataset.url = link;
-				script.dataset.width = "900px";
-				script.dataset.height = "56.25%";
-				if (script.readyState){
-					script.onreadystatechange = function(){
-						if (script.readyState == "loaded" ||
-						script.readyState == "complete"){
-							script.onreadystatechange = null;
+		jQuery('.download-cell button.main-btn').click(function(e){
+			const that = jQuery(this);
+			if (that.hasClass('with-play-icon')){
+				e.preventDefault();
+				
+				<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
+					var recaptchaV3Result = recaptchaV3();
+					recaptchaV3Result.then(function(r){
+						if(r === true){
+							showPremumWatch(that);
 						}
-					};
-				} else {
-					script.onload = function(){};
-				}
-				script.src = "https://k2s.cc/js/preview.js";
-				document.getElementsByClassName("preview-block")[0].appendChild(script);
-				jQuery('#premium').modal('show');
+					});
+				<?php } else {?>
+					showPremumWatch(that);
+				<?php } ?>
 				return false;
 			} else {
 				var link = jQuery(this).data('link');
 				if(typeof link != 'undefined' && link != ''){
 					link= atob(link);
-					var win = window.open(link, '_blank');
-					win.focus();
+					<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
+						var recaptchaV3Result = recaptchaV3();
+						recaptchaV3Result.then(function(r){
+							if(r === true){
+								var win = window.open(link, '_blank');
+								win.focus();
+							}
+						});
+					<?php } else {?>
+						var win = window.open(link, '_blank');
+						win.focus();
+					<?php } ?>
 				}
 			}
 		});
@@ -1011,15 +1031,27 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 			}
 		});
 
-		jQuery('#k2s_cc .btn, #tezfiles_com .btn, #publish2_me .btn, #turbobit_net .btn').click(function(){
-			if (jQuery(this).closest('.modal-footer').find('input[type="checkbox"]').prop('checked')){
+		jQuery('#k2s_cc .btn, #tezfiles_com .btn, #publish2_me .btn, #turbobit_net .btn').click(function(e){
+			const that = jQuery(this);
+			if (that.closest('.modal-footer').find('input[type="checkbox"]').prop('checked')){
 				localStorage.setItem('file-vip', true);
 			}
-			if (!jQuery(this).hasClass('vip-btn')){
+			if (!that.hasClass('vip-btn')){
 				jQuery('#k2s_cc, #tezfiles_com, #publish2_me, #turbobit_net').modal('hide'); 		
 			}
-			var win = window.open($(this).attr('href'), '_blank');
-			win.focus();
+			e.preventDefault();
+			<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
+				var recaptchaV3Result = recaptchaV3();
+				recaptchaV3Result.then(function(r){
+					if(r === true){
+						var win = window.open(that.attr('href'), '_blank');
+						win.focus();
+					}
+				});
+			<?php } else { ?>
+				var win = window.open(that.attr('href'), '_blank');
+				win.focus();
+			<?php } ?>
 			return false;
 		});
   

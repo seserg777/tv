@@ -158,4 +158,18 @@ class TvshowsControllerSeasons extends JControllerAdmin
 		}
 		$app->close();
 	}
+	
+	public function verify(){
+		require_once JPATH_ROOT.'/components/com_tvshows/helpers/season.php';
+		$app = jFactory::getApplication();
+		$jinput = $app->input;
+		$token = $jinput->get('token', null, 'STRING');
+		$validate = TvshowsHelperSeason::checkCaptchaV3($token);
+		if($validate){
+			echo new JResponseJson($validate);
+		} else {
+			echo new JResponseJson($validate, 'Fill in captcha!', true);
+		}
+		$app->close();
+	}
 } ?>
