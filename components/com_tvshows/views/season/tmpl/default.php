@@ -882,7 +882,7 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 		return new Promise(function(resolve, reject) {
 			grecaptcha.ready(function() {
 				grecaptcha.execute('<?php echo $recaptcha_public_v3;?>', {action: 'homepage'}).then(function(token) {
-					jQuery.getJSON('index.php?option=com_tvshows&task=seasons.verify&<?php echo JSession::getFormToken() .'=1';?>',{token: token})
+					jQuery.getJSON('/index.php?option=com_tvshows&task=seasons.verify&<?php echo JSession::getFormToken() .'=1';?>',{token: token})
 					.done(function(r){	
 						if(r.success == true){
 							if(r.data == true){
