@@ -877,6 +877,14 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 <script>
 	var active_btn;
 	
+	function openLink(href){
+		let win = window.open();
+        win.location = href;
+        win.opener = null;
+        win.blur();
+        window.focus();
+	}
+	
 	<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
 	const recaptchaV3 = () => {
 		return new Promise(function(resolve, reject) {
@@ -977,13 +985,15 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 						var recaptchaV3Result = recaptchaV3();
 						recaptchaV3Result.then(function(r){
 							if(r === true){
-								var win = window.open(link, '_blank');
-								win.focus();
+								//var win = window.open(link, '_blank');
+								//win.focus();
+								openLink(link);
 							}
 						});
 					<?php } else {?>
-						var win = window.open(link, '_blank');
-						win.focus();
+						//var win = window.open(link, '_blank');
+						//win.focus();
+						openLink(link);
 					<?php } ?>
 				}
 			}
@@ -999,14 +1009,16 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 				//console.log(link);
 				if (  (link.indexOf('k2s.cc') == -1) && (link.indexOf('tezfiles.com') == -1 ) && (link.indexOf('publish2.me') == -1 )){
 					link = "http://linkshrink.net/zLly="+link;
-					var win = window.open(link, '_blank');
-					win.focus();
+					//var win = window.open(link, '_blank');
+					//win.focus();
+					openLink(link);
 				} else {
 					//console.log('else');
 					link = link+'?site='+window.location.host;
 					if (localStorage.getItem('file-vip')){
-						var win = window.open(link, '_blank');
-						win.focus();				
+						//var win = window.open(link, '_blank');
+						//win.focus();
+						openLink(link);
 					}else{
 						if (link.indexOf('k2s.cc') >= 0){
 							jQuery('#k2s_cc').modal('show');
@@ -1020,8 +1032,9 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 									jQuery('#publish2_me').modal('show');		
 									jQuery('#publish2_me .btn').not('.vip-btn').attr('href', link);
 								}else{
-									var win = window.open(link, '_blank');
-									win.focus();
+									//var win = window.open(link, '_blank');
+									//win.focus();
+									openLink(link);
 								}	
 							}
 						}
@@ -1044,13 +1057,15 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 				var recaptchaV3Result = recaptchaV3();
 				recaptchaV3Result.then(function(r){
 					if(r === true){
-						var win = window.open(that.attr('href'), '_blank');
-						win.focus();
+						//var win = window.open(that.attr('href'), '_blank');
+						//win.focus();
+						openLink(that.attr('href'));
 					}
 				});
 			<?php } else { ?>
-				var win = window.open(that.attr('href'), '_blank');
-				win.focus();
+				//var win = window.open(that.attr('href'), '_blank');
+				//win.focus();
+				openLink(that.attr('href'));
 			<?php } ?>
 			return false;
 		});
