@@ -21,11 +21,23 @@ class TvshowsViewSeason extends JViewLegacy
 	protected $params;
 	
 	public function display($tpl = null) {
+		$app = jFactory::getApplication();
+		$jinput = $app->input;
+		$this->pad = $jinput->get('pad', null);
+		//$this->pad = $jinput->cookie->get('pad_url', null);
+		
+		$this->component_params = JComponentHelper::getParams('com_tvshows');
+		
+		if(isset($this->pad) && !empty($this->pad)){
+			$this->setLayout('pad');
+			parent::display($tpl);
+			return;
+		}
+		
 		$this->state 	= $this->get('State');
 		$this->item 	= $this->get('Item');
 		$this->form 	= $this->get('Form');
 		$this->neighbors 	= $this->get('Neighbors');
-		$this->component_params = JComponentHelper::getParams('com_tvshows');
 		
 		if(
 			!isset($this->item->links) || empty($this->item->links) ||
@@ -86,7 +98,7 @@ class TvshowsViewSeason extends JViewLegacy
 		$model->hit($this->item->id);
 		
 		$this->_prepareDocument();
-
+		
 		parent::display($tpl);
 	}
 

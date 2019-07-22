@@ -8,13 +8,11 @@
 defined("_JEXEC") or die("Restricted access");
 $doc = JFactory::getDocument();
 
+$recaptcha_type = TvshowsHelperSeason::getCaptchaType($this->component_params->get('captchatype'));
+TvshowsHelperSeason::includeCaptcha($recaptcha_type, $this->component_params);
+
 $recaptcha_public_v3 = $this->component_params->get('recaptcha-public-v3', null);
 
-if(isset($recaptcha_public_v3) && !empty(recaptcha_public_v3)){
-	$doc->addScript('//www.google.com/recaptcha/api.js?render='.$recaptcha_public_v3);
-} else {
-	$doc->addScript('//www.google.com/recaptcha/api.js');
-}
 $doc->addScript('//cdn.jsdelivr.net/npm/sweetalert2');
 
 $today = JFactory::getDate();
@@ -56,7 +54,10 @@ $h2_pattern = $this->component_params->get('h2_pattern', null);
 $description_pattern = $this->component_params->get('description_pattern', null);
 $description_pattern_2 = $this->component_params->get('description_pattern_2', null);
 $season_imdb_link = $this->component_params->get('season_imdb_link', null);
-$season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofollow', null);?>
+$season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofollow', null);
+
+$session = JFactory::getSession();
+$validate = $session->get('keycaptcha');?>
 
 <script>const fileshares = JSON.parse('<?php echo json_encode($fileshares);?>');</script>
 
@@ -878,37 +879,37 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 	var active_btn;
 	
 	function openLink(href){
-		let win = window.open();
+		var win = window.open();
         win.location = href;
         win.opener = null;
         win.blur();
         window.focus();
 	}
 	
-	<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
-	const recaptchaV3 = () => {
-		return new Promise(function(resolve, reject) {
-			grecaptcha.ready(function() {
-				grecaptcha.execute('<?php echo $recaptcha_public_v3;?>', {action: 'homepage'}).then(function(token) {
-					jQuery.getJSON('/index.php?option=com_tvshows&task=seasons.verify&<?php echo JSession::getFormToken() .'=1';?>',{token: token})
-					.done(function(r){	
-						if(r.success == true){
-							if(r.data == true){
-								resolve(true);
+	<?php if($recaptcha_type == 'recaptcha3'){?>
+		const recaptchaV3 = () => {
+			return new Promise(function(resolve, reject) {
+				grecaptcha.ready(function() {
+					grecaptcha.execute('<?php echo $recaptcha_public_v3;?>', {action: 'homepage'}).then(function(token) {
+						jQuery.getJSON('/index.php?option=com_tvshows&task=seasons.verify&<?php echo JSession::getFormToken() .'=1';?>',{token: token})
+						.done(function(r){	
+							if(r.success == true){
+								if(r.data == true){
+									resolve(true);
+								} else {
+									console.warn('captcha v3 not validate');
+									resolve(false);
+								}
 							} else {
-								console.warn('captcha v3 not validate');
+								console.error('captcha v3 error');
+								alert('Are You robot?');
 								resolve(false);
 							}
-						} else {
-							console.error('captcha v3 error');
-							alert('Are You robot?');
-							resolve(false);
-						}
+						});
 					});
 				});
 			});
-		});
-	}
+		}
 	<?php } ?>
 	
 	function showPremumWatch(that){
@@ -966,13 +967,15 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 			if (that.hasClass('with-play-icon')){
 				e.preventDefault();
 				
-				<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
+				<?php if($recaptcha_type == 'recaptcha3'){?>
 					var recaptchaV3Result = recaptchaV3();
 					recaptchaV3Result.then(function(r){
 						if(r === true){
 							showPremumWatch(that);
 						}
 					});
+				<?php } elseif($recaptcha_type == 'keycaptcha'){?>
+					openLink('<?php echo JUri::getInstance();?>?tmpl=component&pad='+encodeURIComponent(window.btoa(that.attr('data-url'))));
 				<?php } else {?>
 					showPremumWatch(that);
 				<?php } ?>
@@ -981,18 +984,20 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 				var link = jQuery(this).data('link');
 				if(typeof link != 'undefined' && link != ''){
 					link= atob(link);
-					<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
+					<?php if($recaptcha_type == 'recaptcha3'){?>
 						var recaptchaV3Result = recaptchaV3();
 						recaptchaV3Result.then(function(r){
 							if(r === true){
-								//var win = window.open(link, '_blank');
-								//win.focus();
 								openLink(link);
 							}
 						});
-					<?php } else {?>
-						//var win = window.open(link, '_blank');
-						//win.focus();
+					<?php } elseif($recaptcha_type == 'keycaptcha'){
+						if(isset($validate) && $validate == 'validate'){?>
+							openLink(link);
+						<?php } else {?>
+							openLink('<?php echo JUri::getInstance();?>?tmpl=component&pad='+encodeURIComponent(window.btoa(link)));
+						<?php }
+					} else {?>
 						openLink(link);
 					<?php } ?>
 				}
@@ -1005,35 +1010,29 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 
 			if (typeof attr !== typeof undefined && attr !== false) {
 			}else{
-				var link = atob(arr[active_btn.attr('id')]); 
+				var link = origLink = atob(arr[active_btn.attr('id')]); 
 				//console.log(link);
 				if (  (link.indexOf('k2s.cc') == -1) && (link.indexOf('tezfiles.com') == -1 ) && (link.indexOf('publish2.me') == -1 )){
 					link = "http://linkshrink.net/zLly="+link;
-					//var win = window.open(link, '_blank');
-					//win.focus();
 					openLink(link);
 				} else {
 					//console.log('else');
 					link = link+'?site='+window.location.host;
-					if (localStorage.getItem('file-vip')){
-						//var win = window.open(link, '_blank');
-						//win.focus();
+					if (localStorage.getItem('file-vip')){;
 						openLink(link);
 					}else{
 						if (link.indexOf('k2s.cc') >= 0){
 							jQuery('#k2s_cc').modal('show');
-							jQuery('#k2s_cc .btn').not('.vip-btn').attr('href', link);
+							jQuery('#k2s_cc .btn').not('.vip-btn').attr('href', link).attr('data-link', origLink);
 						}else{
 							if (link.indexOf('tezfiles.com') >= 0){
 								jQuery('#tezfiles_com').modal('show');		
-								jQuery('#tezfiles_com .btn').not('.vip-btn').attr('href', link);
+								jQuery('#tezfiles_com .btn').not('.vip-btn').attr('href', link).attr('data-link', origLink);
 							}else{
 								if (link.indexOf('publish2.me') >= 0){
 									jQuery('#publish2_me').modal('show');		
-									jQuery('#publish2_me .btn').not('.vip-btn').attr('href', link);
+									jQuery('#publish2_me .btn').not('.vip-btn').attr('href', link).attr('data-link', origLink);
 								}else{
-									//var win = window.open(link, '_blank');
-									//win.focus();
 									openLink(link);
 								}	
 							}
@@ -1053,18 +1052,20 @@ $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofo
 				jQuery('#k2s_cc, #tezfiles_com, #publish2_me, #turbobit_net').modal('hide'); 		
 			}
 			e.preventDefault();
-			<?php if(isset($recaptcha_public_v3) && !empty($recaptcha_public_v3)){?>
+			<?php if($recaptcha_type == 'recaptcha3'){?>
 				var recaptchaV3Result = recaptchaV3();
 				recaptchaV3Result.then(function(r){
 					if(r === true){
-						//var win = window.open(that.attr('href'), '_blank');
-						//win.focus();
 						openLink(that.attr('href'));
 					}
 				});
-			<?php } else { ?>
-				//var win = window.open(that.attr('href'), '_blank');
-				//win.focus();
+			<?php } elseif($recaptcha_type == 'keycaptcha') { 
+				if(isset($validate) && $validate == 'validate'){?>
+					openLink(that.data('link'));
+				<?php } else {?>
+					openLink('<?php echo JUri::getInstance();?>?tmpl=component&pad='+encodeURIComponent(window.btoa(that.data('link'))));
+				<?php }
+			} else {?>
 				openLink(that.attr('href'));
 			<?php } ?>
 			return false;

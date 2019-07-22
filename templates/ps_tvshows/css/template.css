@@ -378,6 +378,9 @@ body.movie.com_tvshows .ps-season .other-seasons-items .main-list .main-list-ite
 .ps-season .flip-clock-divider.seconds .flip-clock-label {right:-67px}
 .ps-season .film-info .main-title {padding:31px 68px 35px 108px;}
 .ps-season .film-info .main-title h2 {margin:0px 0px 0px 0px;}
+.ps-season.pad .film-info .main-title {text-align:center;}
+.ps-season.pad .film-info .main-title form {display:inline-block;}
+.ps-season.pad .film-info .main-title .btn {display:inline-block;width:auto;padding-left:60px;padding-right:60px;}
 .ps-season .next-episodes-item {display:none;border-bottom:1px solid #e3e3e3;clear:both;background:#fff;}
 .ps-season .next-episodes-item:last-child {display:block;border-bottom:0;}
 .ps-season .next-episodes .download-list {padding:15px 15px 6px;}

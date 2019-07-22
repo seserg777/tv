@@ -128,11 +128,20 @@
 	</fieldset>
 	
 	<fieldset name="security" label="COM_TVSHOWS_CONFIG_SECURITY">
+		<field name="captchatype" default="2" type="radio" label="Select captcha type">
+			<option value="1">Recaptcha</option>
+			<option value="2">Recaptcha v3</option>
+			<option value="3">keyCAPTCHA</option>
+		</field>
+	
 		<field type="text" name="recaptcha-public" label="Recaptcha public key" />
 		<field type="text" name="recaptcha-secret" label="Recaptcha secret key" />
 		
 		<field type="text" name="recaptcha-public-v3" label="Recaptcha V3 public key" />
 		<field type="text" name="recaptcha-secret-v3" label="Recaptcha V3 secret key" />
+		
+		<field type="text" name="a_private_key" label="KeyCAPTCHA a_private_key" />
+		<field type="text" name="p_kc_user_id" label="KeyCAPTCHA p_kc_user_id" />
 	</fieldset>
 	
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">

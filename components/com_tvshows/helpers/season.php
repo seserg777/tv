@@ -183,4 +183,39 @@ abstract class TvshowsHelperSeason {
 		
 		echo JHTML::_('link', $link, $text, $attributes);
 	}
+	
+	public static function getCaptchaType($type = 2){
+		switch ($type) {
+			case 1:
+				$type = 'recaptcha';
+				break;
+				
+			case 2:
+				$type = 'recaptcha3';
+				break;
+				
+			case 3:
+				$type = 'keycaptcha';
+				break;
+		}
+		
+		return $type;
+	}
+	
+	public static function includeCaptcha($recaptcha_type, $params){
+		$doc = JFactory::getDocument();
+		
+		if($recaptcha_type == 'recaptcha'){
+			$doc->addScript('//www.google.com/recaptcha/api.js');
+		}
+		if($recaptcha_type == 'recaptcha3'){
+			$recaptcha_public_v3 = $params->get('recaptcha-public-v3', null);
+			$doc->addScript('//www.google.com/recaptcha/api.js?render='.$recaptcha_public_v3);
+		}
+		if($recaptcha_type == 'keycaptcha'){
+			
+		}
+	}
+	
+	
 }?>
