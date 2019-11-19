@@ -133,6 +133,8 @@
 			<option value="2">Recaptcha v3</option>
 			<option value="3">keyCAPTCHA</option>
 		</field>
+		
+		<field name="everytime_captcha" type="checkbox" label="Everytime show captcha" value="1" showon="captchatype:3" />
 	
 		<field type="text" name="recaptcha-public" label="Recaptcha public key" />
 		<field type="text" name="recaptcha-secret" label="Recaptcha secret key" />

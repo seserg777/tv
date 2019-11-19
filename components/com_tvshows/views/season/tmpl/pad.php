@@ -6,10 +6,13 @@
  */
 
 defined("_JEXEC") or die("Restricted access");
+$app = jFactory::getApplication();
 $session = JFactory::getSession();
 $validate = $session->get('keycaptcha');
-if(isset($validate) && $validate == 'validate'){
-	header('Location: '.base64_decode($this->pad).'?site='.JFactory::getURI()->getHost());
+$everytime_captcha = $this->component_params->get('everytime_captcha', null);
+if((isset($validate) && $validate == 'validate') || $everytime_captcha == 1){
+	//header('Location: '.base64_decode($this->pad).'?site='.JFactory::getURI()->getHost());
+	$app->redirect(base64_decode($this->pad).'?site='.JFactory::getURI()->getHost());
 }?>
 <style>
 .btn {display: inline-block;margin-bottom: 0;font-weight: normal;text-align: center;vertical-align: middle;touch-action: manipulation;cursor: pointer;background-image: none;border: 1px solid transparent;white-space: nowrap;padding: 6px 12px;font-size: 14px;line-height: 1.42857143;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
@@ -19,10 +22,17 @@ if(isset($validate) && $validate == 'validate'){
 .ps-season.pad {display:flex;align-items:center;justify-content:center;height:100%;}
 .ps-season.pad .film-info .main-title .btn {     display: inline-block;     width: auto;     padding-left: 60px;     padding-right: 60px; }
 .ps-season.pad .film-info .main-title .btn:hover {background: #0cc568;     background: -moz-linear-gradient(top,rgba(12,197,104,1) 0,rgba(1,174,87,1) 100%);     background: -webkit-linear-gradient(top,rgba(12,197,104,1) 0,rgba(1,174,87,1) 100%);     background: linear-gradient(to bottom,rgba(12,197,104,1) 0,rgba(1,174,87,1) 100%);     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0cc568',endColorstr='#01ae57',GradientType=0);     color: #fff !important;}
+.ps-season.pad .film-info .main-title form {margin-top:40px;}
+.ps-season.pad .film-info .main-title {font-family:Arial,sans-serif;}
 </style>
 <div class="ps-season pad">
 	<div class="film-info">
 		<div class="main-title">
+			<p class="h2">Heading-1</p>
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.<br/>Aenean commodo ligula eget dolor. 
+			Aenean massa. Cum sociis natoque penatibus<br/>et magnis dis parturient montes, nascetur ridiculus mus. 
+			Donec quam felis, ultricies nec,<br/>pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. 
+			Donec pede justo, fringilla vel,<br/>aliquet nec, vulputate eget, arcu.</p>
 			<form method="POST" action="">
 				<?php if (!class_exists('KeyCAPTCHA_CLASS')) {
 					include_once (JPATH_ROOT.'/components/com_tvshows/lib/keycaptcha.php'); 
