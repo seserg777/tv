@@ -57,7 +57,8 @@ $season_imdb_link = $this->component_params->get('season_imdb_link', null);
 $season_imdb_link_nofollow = $this->component_params->get('season_imdb_link_nofollow', null);
 
 $session = JFactory::getSession();
-$validate = $session->get('keycaptcha');?>
+$validate = $session->get('keycaptcha');
+$everytime_captcha = $this->component_params->get('everytime_captcha', 0);?>
 
 <script>const fileshares = JSON.parse('<?php echo json_encode($fileshares);?>');</script>
 
@@ -963,6 +964,7 @@ $validate = $session->get('keycaptcha');?>
 		});
 		
 		jQuery('.download-cell button.main-btn').click(function(e){
+			//console.log('222');
 			const that = jQuery(this);
 			if (that.hasClass('with-play-icon')){
 				e.preventDefault();
@@ -974,13 +976,15 @@ $validate = $session->get('keycaptcha');?>
 							showPremumWatch(that);
 						}
 					});
-				<?php } elseif($recaptcha_type == 'keycaptcha'){?>
+				<?php } elseif($recaptcha_type == 'keycaptcha'){
+					//console.log('111');?>
 					openLink('<?php echo JUri::getInstance();?>?tmpl=component&pad='+encodeURIComponent(window.btoa(that.attr('data-url'))));
 				<?php } else {?>
 					showPremumWatch(that);
 				<?php } ?>
 				return false;
 			} else {
+				//console.log('333');
 				var link = jQuery(this).data('link');
 				if(typeof link != 'undefined' && link != ''){
 					link= atob(link);
@@ -992,7 +996,7 @@ $validate = $session->get('keycaptcha');?>
 							}
 						});
 					<?php } elseif($recaptcha_type == 'keycaptcha'){
-						if(isset($validate) && $validate == 'validate'){?>
+						if(isset($validate) && $validate == 'validate' && $everytime_captcha != 1){?>
 							openLink(link);
 						<?php } else {?>
 							openLink('<?php echo JUri::getInstance();?>?tmpl=component&pad='+encodeURIComponent(window.btoa(link)));
@@ -1060,7 +1064,7 @@ $validate = $session->get('keycaptcha');?>
 					}
 				});
 			<?php } elseif($recaptcha_type == 'keycaptcha') { 
-				if(isset($validate) && $validate == 'validate'){?>
+				if(isset($validate) && $validate == 'validate' && $everytime_captcha == 1){?>
 					openLink(that.data('link'));
 				<?php } else {?>
 					openLink('<?php echo JUri::getInstance();?>?tmpl=component&pad='+encodeURIComponent(window.btoa(that.data('link'))));

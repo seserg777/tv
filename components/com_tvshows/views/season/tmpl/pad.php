@@ -9,8 +9,9 @@ defined("_JEXEC") or die("Restricted access");
 $app = jFactory::getApplication();
 $session = JFactory::getSession();
 $validate = $session->get('keycaptcha');
-$everytime_captcha = $this->component_params->get('everytime_captcha', null);
-if((isset($validate) && $validate == 'validate') || $everytime_captcha == 1){
+$everytime_captcha = $this->component_params->get('everytime_captcha', 0);
+//var_dump($everytime_captcha);exit;
+if((isset($validate) && $validate == 'validate') && $everytime_captcha != 1){
 	//header('Location: '.base64_decode($this->pad).'?site='.JFactory::getURI()->getHost());
 	$app->redirect(base64_decode($this->pad).'?site='.JFactory::getURI()->getHost());
 }?>
