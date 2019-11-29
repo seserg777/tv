@@ -846,13 +846,56 @@ class PlgSystemTvparse extends JPlugin {
 		}
 	}
 	
-	protected function getAllSeasons(){
+	protected function getAllSeasons($onlyEmptyEpisodes){
 		$query = $this->db->getQuery(true);
-		$query
-			->select($this->db->quoteName(array('film', 'season_number', 'title')))
-			->from($this->db->quoteName('#__tvshows_season'));
-		$this->db->setQuery($query);
-		return $this->db->loadObjectList();
+		if(!$onlyEmptyEpisodes){
+			$query
+				->select($this->db->quoteName(array('film', 'season_number', 'title')))
+				->from($this->db->quoteName('#__tvshows_season'));
+				$this->db->setQuery($query);
+				return $this->db->loadObjectList();
+		} else {
+			$query
+				->select($this->db->quoteName(array('tv_id', 'season_number')))
+				->select('COUNT(id) AS ct')
+				->from($this->db->quoteName('#__tvshows_episodes'))
+				->group('tv_id')
+				->group('season_number');
+				$this->db->setQuery($query);
+				$episodes = $this->db->loadObjectList();
+				
+				$query = $this->db->getQuery(true);
+				$query
+					->select($this->db->quoteName(array('film', 'season_number', 'title', 'episode_count')))
+					->from($this->db->quoteName('#__tvshows_season'));
+				$this->db->setQuery($query);
+				$seasons = $this->db->loadObjectList();
+				
+				foreach($seasons as $k => $season){
+					foreach($episodes as $episode){
+						//var_dump($season->film, $episode->tv_id, $season->season_number, $episode->season_number, $season->episode_count, $episode->ct);
+						//echo "\n";
+						if($season->film == $episode->tv_id && $season->season_number == $episode->season_number && $season->episode_count == $episode->ct){
+							//var_dump($season);
+							unset($seasons[$k]);
+						}
+					}
+				}
+				
+				//var_dump($seasons);
+				
+				return $seasons;
+			
+			/*$query
+				->select($this->db->quoteName('a.film'))
+				->select($this->db->quoteName('a.season_number'))
+				->select($this->db->quoteName('a.title'))
+				->select('COUNT(b.id) as count')
+				->from($this->db->quoteName('#__tvshows_season', 'a'))
+				->join('LEFT OUTER', $this->db->quoteName('#__tvshows_episodes', 'b') . ' ON  ('. $this->db->quoteName('a.film') . ' = ' . $this->db->quoteName('b.tv_id') .' AND '. $this->db->quoteName('a.season_number') . ' = ' . $this->db->quoteName('b.season_number').')')
+				->where($this->db->quoteName('b.id') .' IS NULL');*/
+		}
+		
 	}
 	
 	protected function saveTvSeasonEpisode($tv_id, $season_number){
@@ -880,6 +923,8 @@ class PlgSystemTvparse extends JPlugin {
 								->where($this->db->quoteName('season_number') . ' = '.$this->db->quote($season_number));
 							$this->db->setQuery($query);
 							$exist = $this->db->loadResult();
+							
+							//var_dump($exist);
 							
 							if(!$exist){
 								$row = new stdClass();
@@ -1401,7 +1446,12 @@ class PlgSystemTvparse extends JPlugin {
 				break;
 				
 			case 'getAllSeasons':
-				$return = $this->getAllSeasons();
+				$data = $jinput->get('data', null, 'STRING');
+				if(isset($data) && !empty($data)){
+					$data = json_decode($data, true);
+				}
+				//var_dump($data);
+				$return = $this->getAllSeasons($data['onlyEmptyEpisodes']);
 				break;
 				
 			case 'saveMovieInfo':

@@ -35,20 +35,26 @@ const saveMovieInfo = (movie_id, poster_quality, screeencaps_quality, lang) => {
 	});
 }
 
-const getAllSeasons = () => {
+const getAllSeasons = (onlyEmptyEpisodes = false) => {
 	return new Promise((resolve, reject) => {		
-		request('getAllSeasons')
+		request('getAllSeasons', JSON.stringify({'onlyEmptyEpisodes': onlyEmptyEpisodes}))
 		.done(function(r) {
-			//console.log(r);
-			if(typeof r.data != 'undefined' && r.data.length){
+			//console.log(onlyEmptyEpisodes);
+			//console.log(r, Object.keys(r.data).length);
+			if(typeof r.data != 'undefined' && Object.keys(r.data).length){
 				
-				//let infoBlock = jQuery('#episodes-result');
+				if(typeof infoBlock == 'undefined' || infoBlock == '' || !infoBlock.length){
+					//console.log(jQuery('#episodes-result'));
+					infoBlock = jQuery('#episodes-result');
+				}
 				
 				for(let i in r.data){
 					//console.log(r.data[i]);
 					infoBlock.append(`<div class="alert" data-film-id="${r.data[i].film}" data-season-number="${r.data[i].season_number}"><h4>Tvshow#${r.data[i].film} Season #${r.data[i].season_number} ${r.data[i].title}</h4><p></p></div>`);
 					jQuery('html, body').stop().animate({scrollTop: infoBlock.find('[data-film-id="'+r.data[i].film+'"][data-season-number="'+r.data[i].season_number+'"]').offset().top - 120 });
 				}
+				
+				//console.log(r.data);
 				
 				resolve(r.data);
 			}
@@ -67,10 +73,13 @@ const saveTvSeasonEpisode = (tv_id, season_number, language) => {
 		} else {
 			request('saveTvSeasonEpisode', JSON.stringify({'tv_id': tv_id, 'season_number': season_number, 'language': language}))
 			.done(function(r) {
-				//console.log(r);
+				//console.log(r, tv_id, season_number, language);
 				if(typeof r.data != 'undefined' && r.data != null && r.data[0]){
 					
-					//let infoBlock = jQuery('#episodes-result');
+					//console.log(infoBlock);
+					if(typeof infoBlock == 'undefined'){
+						const infoBlock = jQuery('#episodes-result');
+					}
 					
 					for(let i in r.data){
 						//console.log(r.data[i]);
@@ -1002,12 +1011,13 @@ const startAction = (type) => {
 				
 				infoBlock = jQuery('#episodes-result');
 				
-				const episodes_list = getAllSeasons();
+				const episodes_list = getAllSeasons(true);
 				episodes_list.then(function(result){
-					//console.log(result);				
-					result.reduce( (p, _, i) => 
+					const list = Object.values(result);
+					//console.log(list);				
+					list.reduce( (p, _, i) => 
 						p.then(_ => new Promise(resolve =>
-							saveTvSeasonEpisode(result[i].film, result[i].season_number, lang_episodes).then(function(result){
+							saveTvSeasonEpisode(list[i].film, list[i].season_number, lang_episodes).then(function(r){
 								resolve();
 							})
 						))
