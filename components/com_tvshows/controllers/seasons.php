@@ -39,15 +39,17 @@ class TvshowsControllerSeasons extends JControllerAdmin
 	public function search(){
 		$app = JFactory::getApplication();
 		$jinput = $app->input;
-		$search = $jinput->get('search');
+		$search = $jinput->get('search', null, 'STIRING');
 		
 		$return = false;
 		
-		$model = $this->getModel('Seasons', 'TvshowsModel');
-		$model->setState('filter.search', 'title:'.$search);
-		$list = $model->search();
-		
-		$return['list'] = $list;
+		if($search){
+			$model = $this->getModel('Seasons', 'TvshowsModel');
+			$model->setState('filter.search', 'title:'.$search);
+			$list = $model->search();
+			
+			$return['list'] = $list;
+		}
 		
 		echo json_encode( array('data' => $return) );
 		$app->close();

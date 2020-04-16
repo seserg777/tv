@@ -202,17 +202,23 @@ class TvshowsModelMovies extends JModelList
 		$search = $this->getState('filter.search');
 		
 		if(stripos($search, 'title:') === 0){
-			$search = $db->quote('%' . $db->escape(substr($search, strlen('title:')), true) . '%');
+			//$search = $db->quote('%' . $db->escape(substr($search, strlen('title:')), true) . '%');
+			$search = substr($search, strlen('title:'));
 		}
+		//var_dump($search);
 		
 		$query = $db->getQuery(true);
 		$query
-			->select($db->quoteName(array('id', 'title', 'alias', 'images'), array('id', 'title', 'alias', 'film_images')))			
+			->select($db->qn(array('id', 'title', 'alias', 'images'), array('id', 'title', 'alias', 'film_images')))			
 			->from('#__tvshows_movies')
-			->where('title LIKE ' . $search)
+			->where($db->qn('title') . ' LIKE ' . $db->q('%'.$search.'%'))
+			->where($db->qn('title') . ' LIKE ' . $db->q($search.'%'))
+			->where($db->qn('title') . ' LIKE ' . $db->q('%'.$search))
+			->where($db->qn('title') . ' LIKE ' . $db->q($search))
 			->order('title ASC');
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
+		//var_dump($list);
 		
 		if(count($list)){
 			foreach($list as $k => $v){

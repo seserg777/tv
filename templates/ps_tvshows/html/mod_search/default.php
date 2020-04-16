@@ -76,17 +76,72 @@ else
 <script src="/modules/mod_tvalphabet/assets/js/jquery.mCustomScrollbar.js"></script>
 <script>
 	function find(word){
+		console.log('find');
 		word = word.toString();
+		const module = jQuery('.searchheader-search');
 		if(word.length > 2){
-			var jqXhrS = jQuery.getJSON("/index.php?option=com_tvshows&task=seasons.search&search="+word);
-			var jqXhrM = jQuery.getJSON("/index.php?option=com_tvshows&task=movies.search&search="+word);
-		
-			jqXhrS
-			.done(function(data) {
+			const jqXhrS = jQuery.getJSON("/index.php?option=com_tvshows&task=seasons.search&search="+word);
+			const jqXhrM = jQuery.getJSON("/index.php?option=com_tvshows&task=movies.search&search="+word);
+			
+			jQuery.when(
+				jQuery.getJSON("/index.php?option=com_tvshows&task=seasons.search&search="+word),
+				jQuery.getJSON("/index.php?option=com_tvshows&task=movies.search&search="+word)
+			).done(function(data, r){
+				console.log('done');
+				
+				data = data[0];
+				r = r[0];
+				
+				var list = [];
+				
+				if(typeof r.data.list != 'undefined' && r.data.list.length){
+					list = [...r.data.list];
+				}
+				
+				if(typeof data.data.list != 'undefined' && data.data.list.length){
+					list = [...data.data.list];
+				}
+				
+				//console.log(list);
+				
+				var width = (jQuery('body').width() - jQuery('#header > .wrapper').width())/2 + jQuery('.moduletableheader-search').width() - 8;
+						
+				module.find('.result').width(width);
+				module.find('.go-to-search').width(width).find('a').attr('href', '/?s='+word);
+					
+				//.find('ul').append('<div class="go-to-search" style="width:'+width+'px;"><a href="/?s='+word+'">All results</a></div>');
+				
+				module.find('.result').find('ul').empty();			
+				for (var i in list) {
+					//console.log(list[i]['link']);
+					var row = '<li><a href="' + list[i]['link'] + '"><div class="img" style="background-image:url(' + list[i]['image'] + ');"></div><h3>';
+					if(typeof list[i]['title'] != 'undefined'){
+						row += list[i]['title'];
+					}
+					if(typeof list[i]['film_title'] != 'undefined'){
+						row += list[i]['film_title'];
+					}
+					row += '</h3></a></li>';
+					module.find('.result').find('ul').append(row);
+				}					
+						
+				module.find('.result').mCustomScrollbar({
+					autoHideScrollbar: false,
+					scrollInertia: 700,
+					scrollEasing: 'linear',
+					mouseWheel: {preventDefault: true,scrollAmount: 300,deltaFactor: 100 },
+				}); 
+			})
+			.fail(function(){
+				console.log('fail');
+			});
+			
+			/*jqXhrS.done(function(data) {
 				var list = [];
 				var module = jQuery('.searchheader-search');
-				
+				console.log('zzz');
 				jqXhrM.done(function(r) {
+					console.log('xxx');
 					if(typeof r.data.list != 'undefined' && r.data.list.length){
 						list = [...r.data.list];
 					}
@@ -105,11 +160,11 @@ else
 					//.find('ul').append('<div class="go-to-search" style="width:'+width+'px;"><a href="/?s='+word+'">All results</a></div>');
 						
 					for (var i in list) {
-						var row = `<li><a href='${list[i].link}'><div class='img' style='background-image:url(${list[i].image});'></div><h3>${list[i].title}`;
+						var row = '<li><a href="' + list[i].link + '"><div class="img" style="background-image:url(' + list[i].image + ');"></div><h3>' + list[i].title;
 						if(typeof list[i].film_title != 'undefined'){
-							row += ` ${list[i].film_title}`;
+							row += ' list[i].film_title';
 						}
-						row += `</h3></a></li>`;
+						row += '</h3></a></li>';
 						module.find('.result').find('ul').append(row);
 					}					
 						
@@ -123,12 +178,16 @@ else
 			})
 			.fail(function(xhr) {
 				console.log('error common back', xhr);
-			});
+			});*/
 		}
 	}
 	
 	jQuery(document).ready(function(){
-		jQuery('#mod-search-searchword').on('change keyup paste',function(){
+		jQuery('#mod-search-searchword').unbind('change');
+		//jQuery('#mod-search-searchword').on('change keyup paste',function(e){
+		jQuery('#mod-search-searchword').on('keyup paste',function(e){
+			//console.log('will close click');
+			//console.log(e);
 			//jQuery('.searchheader-search').find('.result,.go-to-search').remove();
 			jQuery('.searchheader-search').find('.result').removeClass('hide');
 			jQuery('.searchheader-search').find('.go-to-search').removeClass('hide');
@@ -137,6 +196,7 @@ else
 		});
 		
 		jQuery('.moduletableheader-search').mouseleave(function() {
+			//console.log('will close mouseleave');
 			//jQuery(this).find('.result,.go-to-search').remove();
 			jQuery('.searchheader-search').find('.result').addClass('hide');
 			jQuery('.searchheader-search').find('.go-to-search').addClass('hide');
